@@ -1,5 +1,7 @@
 -- (c) 2023 tor houghton // th(at)bogus.net
 -- released under simplified 2-clause bsd licence
+-- this is a linux query and requires ebpf support in the kernel, and
+-- /etc/osquery/osquery.flags with "--enable_bpf_events=true" configured.
 SELECT uid,cwd,datetime(time,"unixepoch"),cmdline,syscall,exit_code FROM bpf_process_events 
 WHERE 
 regex_match(cmdline,"sshpass.*\s+-p\s+\S+",1) IS NOT NULL OR

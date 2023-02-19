@@ -1,4 +1,4 @@
 # osquery-fleet-queries
-OSQuery FleetDM query files
-This repo contains miscellaneous OSquery searches for use with e.g. FleetDM. 
-Pull requests welcome..
+Some of my own OSquery/FleetDM queries that might be of use to others.
+# license
+Released under a Simplified BSD 2-Clause license.

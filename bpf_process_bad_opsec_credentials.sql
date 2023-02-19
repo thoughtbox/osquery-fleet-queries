@@ -1,3 +1,5 @@
+-- (c) 2023 tor houghton // th(at)bogus.net
+-- released under simplified 2-clause bsd licence
 SELECT uid,cwd,datetime(time,"unixepoch"),cmdline,syscall,exit_code FROM bpf_process_events 
 WHERE 
 regex_match(cmdline,"sshpass.*\s+-p\s+\S+",1) IS NOT NULL OR
@@ -11,13 +13,13 @@ regex_match(cmdline,"fossil\s+.*https?:\/\/\S+:\S+@",0) IS NOT NULL OR
 regex_match(cmdline,"svn\s+.*--password\s+\S+",0) IS NOT NULL OR
 regex_match(cmdline,"docker\s+login.*(--password|-p)\s+\S+",0) IS NOT NULL OR
 regex_match(cmdline,"htpasswd\s+-cb\s+\S+\s+\S+\s+\S+",0) IS NOT NULL OR
-regex_match(cmdline,"java\s+-jar\s+jenkins-cli.jar\s+.*-auth",0) IS NOT NULL OR
-regex_match(cmdline,"mosquitto_pub\s+.*+-P\s+\S+",1) IS NOT NULL OR
+regex_match(cmdline,"java\s+-jar\s+jenkins-cli\.jar\s+.*-auth",0) IS NOT NULL OR
+regex_match(cmdline,"mosquitto_pub\s+.*-P\s+\S+",1) IS NOT NULL OR
 regex_match(cmdline,"rabbitmqctl\s+(add_user|authenticate_user|change_password)\s+\S+\s+\S+",1) IS NOT NULL OR
 regex_match(cmdline,"rabbitmqctl\s+.*amqp:\/\/\S+:\S+@",1) IS NOT NULL OR
 regex_match(cmdline,"rabbitmqadmin\s+.*-p\s+\S+",1) IS NOT NULL OR
 regex_match(cmdline,"couchbase-cli\s+.*-p\s+\S+",1) IS NOT NULL OR
-regex_match(cmdline,"curator\s+.*(--password|--http_auth)",1) IS NOT NULL OR
+regex_match(cmdline,"curator\s+.*--(password|http_auth)",1) IS NOT NULL OR
 regex_match(cmdline,"zip\s+.*-P\s+\S+",1) IS NOT NULL OR
 regex_match(cmdline,"rar\s+.*-hp\S+",1) IS NOT NULL OR
 regex_match(cmdline,"7z\s+.*-p\S+",1) IS NOT NULL OR

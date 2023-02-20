@@ -23,6 +23,7 @@ regex_match(cmdline,"docker\s+login.*(--password|-p)\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"htpasswd\s+-cb\s+\S+\s+\S+\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"java\s+-jar\s+jenkins-cli\.jar\s+.*-auth",0) NOT NULL OR
 regex_match(cmdline,"mosquitto_pub\s+.*-P\s+\S+",0) NOT NULL OR
+regex_match(cmdline,"mosquitto_pub\s+.*mqtts?://\S+:\S+@",0) NOT NULL OR
 regex_match(cmdline,"rabbitmqctl\s+(add_user|authenticate_user|change_password)\s+\S+\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"rabbitmqctl\s+.*amqp:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(cmdline,"rabbitmqadmin\s+.*-p\s+\S+",0) NOT NULL OR
@@ -35,6 +36,7 @@ regex_match(cmdline,"xfreerdp\s+.*\/p:\S+",0) NOT NULL OR
 regex_match(cmdline,"rdesktop\s+.*-p\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"bcp\s+.*-P\S+",0) NOT NULL OR
 regex_match(cmdline,"isql\s+.*-P\s+\S+",0) NOT NULL OR
+regex_match(cmdline,"dbping\s+.*-c\s+.*PWD=\S+",0) NOT NULL OR
 regex_match(cmdline,"mongo\s+.*-p\S+",0) NOT NULL OR
 regex_match(cmdline,"redis-cli\s+.*-a\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"ldapsearch\s+.*-w\s+\S+",0) NOT NULL OR
@@ -45,9 +47,9 @@ regex_match(cmdline,"psql\s+\[.*\s+password=.*\]",0) NOT NULL OR
 regex_match(cmdline,"odbcinst\s+.*-P\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"winexe\s+.*-U\s+\S+:\S+",0) NOT NULL OR
 regex_match(cmdline,"smbclient\s+.*(-U|--user)\s+\S+:\S+",0) NOT NULL OR
-regex_match(cmdline,"smbclient\s+.*--password\s+\S+",0) NOT NULL OR
+regex_match(cmdline,"smbclient\s+.*--(password|pw-nt-hash)\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"samba-tool\s+.*(-U|--user)\s+\S+:\S+",0) NOT NULL OR
-regex_match(cmdline,"samba-tool\s+.*--password\s+\S+",0) NOT NULL OR
+regex_match(cmdline,"samba-tool\s+.*--(password|pw-nt-hash)\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"mssql-cli\s+.*-P\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"mysql.*\s+-p\S+",0) NOT NULL 
 ORDER BY datetime(time,"unixepoch") DESC;

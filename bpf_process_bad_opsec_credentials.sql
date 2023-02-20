@@ -12,7 +12,7 @@ regex_match(cmdline,"curl\s+.*-u\s+\S+:\S+",0) NOT NULL OR
 regex_match(cmdline,"curl\s+.*-d\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"curl\s+.*--data-raw\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"curl\s+.*https?:\/\/\S+:\S+@",0) NOT NULL OR
-regex_match(cmdline,"curl\s+.*Authorization:\s+Bearer\s+\S+",0) NOT NULL OR
+regex_match(lower(cmdline),"curl\s+.*authorization:\s+bearer\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"lftp\s+.*-u\s+\S+,\S+",0) NOT NULL OR
 regex_match(cmdline,"ncftp.*-p\s+\S+",0) NOT NULL OR
 regex_match(cmdline,"s3cmd.*--(access|secret)_key=\S+",0) NOT NULL OR

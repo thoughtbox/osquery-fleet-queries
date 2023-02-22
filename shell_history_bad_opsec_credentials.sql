@@ -26,6 +26,10 @@ regex_match(s.command,"curl\s+.*-d\s+\S+",0) NOT NULL OR
 regex_match(s.command,"curl\s+.*--data-raw\s+\S+",0) NOT NULL OR
 regex_match(s.command,"curl\s+.*https?:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(lower(s.command),"curl\s+.*authorization:\s+bearer\s+\S+",0) NOT NULL OR
+-- wget is kind of the same
+regex_match(s.command,"wget\s+.*--(|http-|ftp-|proxy-)password=\S+",0) NOT NULL OR
+regex_match(s.command,"wget\s+.*https?://\S+:\S+@",0) NOT NULL OR
+regex_match(lower(s.command),"wget\s+.*authorization:\s+bearer\s+\S+",0) NOT NULL OR
 regex_match(s.command,"lftp\s+.*-u\s+\S+,\S+",0) NOT NULL OR
 regex_match(s.command,"ncftp.*-p\s+\S+",0) NOT NULL OR
 regex_match(s.command,"s3cmd.*--(access|secret)_key=\S+",0) NOT NULL OR

@@ -1,12 +1,12 @@
 -- crontab_bad_opsec_credentials
 -- looks for process events containing credentials, often exploited for lateral movement
--- v0.1 (c) 2023 tor houghton // th(at)bogus.net
+-- v0.2 (c) 2023 tor houghton // th(at)bogus.net
 -- released under the simplified 2-clause bsd licence
 SELECT command,path FROM crontab 
 WHERE 
 -- general user:secret@host match; should perhaps be protocol specific, such as
 -- \s+(acap|amqp|cvs|dict|fish|ftp|h323|http|iax|imap|ldap|mqtt|mumble|pop|postgresql|sftp|sip|smb|snmp|svn|telnet|xmpp)s?
-regex_match(command,"\s+\S+:\/\/\S+:\S+@\S+",0) NOT NULL OR
+regex_match(command,"\S+:\/\/\S+:\S+@\S+",0) NOT NULL OR
 -- curl has the possibility to leak so much data, this is not an exhaustive list
 regex_match(command,"curl\s+.*-u\s+\S+:\S+",0) NOT NULL OR
 regex_match(command,"curl\s+.*-d\s+\S+",0) NOT NULL OR

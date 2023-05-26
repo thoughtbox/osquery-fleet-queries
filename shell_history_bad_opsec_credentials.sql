@@ -1,11 +1,14 @@
 -- shell_history_bad_opsec_credentials
 -- looks for process events containing credentials, often exploited for lateral movement
 -- querying the "shell_history" table may be unreliable if a user's terminal session is still active
--- (c) 2023 tor houghton // th(at)bogus.net
+-- v0.2 (c) 2023 tor houghton // th(at)bogus.net
 -- released under the simplified 2-clause bsd licence
 -- this query is supported by macos and linux
 SELECT u.username, s.command, s.time FROM users u CROSS JOIN shell_history s USING (uid) 
 WHERE 
+-- generic URI match
+regex_match(s.command,"\S+:\/\/\S+:\S+@",0) NOT NULL OR
+-- the rest
 regex_match(s.command,"(AWS_ACCESS_KEY|AWS_SECRET_ACCESS_KEY)=\S+",0) NOT NULL OR
 regex_match(s.command,"AZURE_(CLIENT_SECRET|PASSWORD)=\S+",0) NOT NULL OR
 regex_match(s.command,"GITHUB_TOKEN=\S+",0) NOT NULL OR
@@ -24,25 +27,19 @@ regex_match(s.command,"sshpass.*\s+-p\s+\S+",0) NOT NULL OR
 regex_match(s.command,"curl\s+.*-u\s+\S+:\S+",0) NOT NULL OR
 regex_match(s.command,"curl\s+.*-d\s+\S+",0) NOT NULL OR
 regex_match(s.command,"curl\s+.*--data-raw\s+\S+",0) NOT NULL OR
-regex_match(s.command,"curl\s+.*https?:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(lower(s.command),"curl\s+.*authorization:\s+bearer\s+\S+",0) NOT NULL OR
 -- wget is kind of the same
 regex_match(s.command,"wget\s+.*--(|http-|ftp-|proxy-)password=\S+",0) NOT NULL OR
-regex_match(s.command,"wget\s+.*https?://\S+:\S+@",0) NOT NULL OR
 regex_match(lower(s.command),"wget\s+.*authorization:\s+bearer\s+\S+",0) NOT NULL OR
 regex_match(s.command,"lftp\s+.*-u\s+\S+,\S+",0) NOT NULL OR
 regex_match(s.command,"ncftp.*-p\s+\S+",0) NOT NULL OR
 regex_match(s.command,"s3cmd.*--(access|secret)_key=\S+",0) NOT NULL OR
-regex_match(s.command,"git\s+.*https?:\/\/\S+:\S+@",0) NOT NULL OR
-regex_match(s.command,"fossil\s+.*https?:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(s.command,"svn\s+.*--password\s+\S+",0) NOT NULL OR
 regex_match(s.command,"docker\s+login.*(--password|-p)\s+\S+",0) NOT NULL OR
 regex_match(s.command,"htpasswd\s+-cb\s+\S+\s+\S+\s+\S+",0) NOT NULL OR
 regex_match(s.command,"java\s+-jar\s+jenkins-cli\.jar\s+.*-auth",0) NOT NULL OR
 regex_match(s.command,"mosquitto_pub\s+.*-P\s+\S+",0) NOT NULL OR
-regex_match(s.command,"mosquitto_pub\s+.*mqtts?://\S+:\S+@",0) NOT NULL OR
 regex_match(s.command,"rabbitmqctl\s+(add_user|authenticate_user|change_password)\s+\S+\s+\S+",0) NOT NULL OR
-regex_match(s.command,"rabbitmqctl\s+.*amqp:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(s.command,"rabbitmqadmin\s+.*-p\s+\S+",0) NOT NULL OR
 regex_match(s.command,"couchbase-cli\s+.*-p\s+\S+",0) NOT NULL OR
 regex_match(s.command,"curator\s+.*--(password|http_auth)",0) NOT NULL OR
@@ -58,7 +55,6 @@ regex_match(s.command,"mongo\s+.*-p\S+",0) NOT NULL OR
 regex_match(s.command,"redis-cli\s+.*-a\s+\S+",0) NOT NULL OR
 regex_match(s.command,"ldapsearch\s+.*-w\s+\S+",0) NOT NULL OR
 regex_match(s.command,"sqlplus\s+.*\S+\/\S+@\/\/",0) NOT NULL OR
-regex_match(s.command,"psql\s+.*postgresql:\/\/\S+:\S+@",0) NOT NULL OR
 regex_match(s.command,"psql\s+.*postgresql:\/\/.*&password=",0) NOT NULL OR
 regex_match(s.command,"psql\s+\[.*\s+password=.*\]",0) NOT NULL OR
 regex_match(s.command,"odbcinst\s+.*-P\s+\S+",0) NOT NULL OR
